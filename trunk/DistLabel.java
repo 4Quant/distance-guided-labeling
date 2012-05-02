@@ -22,7 +22,7 @@ public class DistLabel extends TIPLPlugin {
 	public boolean[] mask;
 	public boolean[] diffmask;
 	
-		
+    
 	public int maxlabel;
 	public int unfilledVox=0;
 	
@@ -34,7 +34,7 @@ public class DistLabel extends TIPLPlugin {
 	private final double	FLATCRIT=3;//0.401;
 	private final int MAXOVERLAP=40;
 	private final double	ABSMINWALLDIST=2;
-
+    
 	private final boolean DISTGROW=true;
 	
 	private double MINNSCORE=-0.9;
@@ -53,9 +53,9 @@ public class DistLabel extends TIPLPlugin {
 		Init(idim,ioffset);
 	}
 	/** The constructor 
-	  * @param inputmap Is the distance map (scaled into a short) against which the bubbles are grown
-	  * @param inputmask Is the mask containing the volume where the bubbles are
-	  */
+     * @param inputmap Is the distance map (scaled into a short) against which the bubbles are grown
+     * @param inputmask Is the mask containing the volume where the bubbles are
+     */
 	public DistLabel(short[] inputmap,boolean[] inputmask,D3int idim,D3int ioffset) {
 		aimLength=inputmap.length;
 		distmap=new int[aimLength];
@@ -104,7 +104,7 @@ public class DistLabel extends TIPLPlugin {
 		
 		labels=new int[aimLength];
 		diffmask=new boolean[aimLength];
-
+        
 		
 		InitDims(idim,ioffset);
 		
@@ -211,7 +211,7 @@ public class DistLabel extends TIPLPlugin {
         System.out.println(outString);
         procLog+=outString+"\n";
     }
-
+    
     
     
 	private SeedList locateSeeds(int startSlice, int finalSlice) {
@@ -290,7 +290,7 @@ public class DistLabel extends TIPLPlugin {
                              -
                              (localValues[2][0][1]  - localValues[0][0][1]) / 2
                              ) / 2;
-                             
+                            
                             
                             // xz
                             hessianMatrix[0][2] = hessianMatrix[2][0] =
@@ -325,7 +325,7 @@ public class DistLabel extends TIPLPlugin {
                             if ((result[0]<=0) && (result[1]<=0) && (result[2]<=0)) minCriteria=-5; // Negative Definite
                             else lapVal=1;
                         }
-                    
+                        
 						gradX*=distScalar;
                         gradY*=distScalar;
                         gradZ*=distScalar;
@@ -343,15 +343,15 @@ public class DistLabel extends TIPLPlugin {
                             tempSeedList.addbubble(x,y,z,cVDist);
 						}
 					}	// End mask and dist-check
-            } // End x
-        } // End y
+                } // End x
+            } // End y
 		} // End z
 		avgGrad/=inVox;
 		avgLap/=inVox;
 		System.out.println("Average GradVal:"+avgGrad+" - STD:"+Math.sqrt(avgSGrad/inVox-avgGrad*avgGrad)+", Lap:"+avgLap+" - STD:"+Math.sqrt(avgSLap/inVox-avgLap*avgLap));
 		//procLog+="CMD:LocalMaxima: GradVal:"+avgGrad+" - STD:"+Math.sqrt(avgSGrad/inVox-avgGrad*avgGrad)+", Lap:"+avgLap+" - STD:"+Math.sqrt(avgSLap/inVox-avgLap*avgLap)+"\n";
         return tempSeedList;
-	
+        
 	}
     private class bubbleFiller extends Thread {
         int cLabel;
@@ -386,7 +386,7 @@ public class DistLabel extends TIPLPlugin {
         if (coreArray[coreIndex]!=null) {
             return (coreArray[coreIndex].isFinished);
         } else
-        return true;
+            return true;
     }
     public void run() {
 		
@@ -447,7 +447,7 @@ public class DistLabel extends TIPLPlugin {
         String outString="BubbleFiller: Ran in "+StrRatio(System.currentTimeMillis()-jStartTime,1000)+" seconds on "+neededCores+" cores";
         System.out.println(outString);
         procLog+=outString+"\n";
-
+        
 		procLog+="CMD:DistLabel: Max Label:"+clabel+"\n";
 		runCount++;
 	}
@@ -705,12 +705,12 @@ public class DistLabel extends TIPLPlugin {
 		double emptyVoxels=0;
 		double outsideMask=0;
 		double fullVoxels=0;
-
+        
 		int remVoxels=aimLength;
 		int totalVoxels=aimLength;
 		int	tlowx,tlowy,tlowz,tuppx,tuppy,tuppz;
 		// Identify local maxima regions
-
+        
 		
 		// Run loop to make bubbles
 		int clabel=1;
@@ -739,12 +739,12 @@ public class DistLabel extends TIPLPlugin {
 				System.out.println("No more sufficient seed bubbles found!");
 				break;
 			}
-		
+            
 			
 			int bubbleSize=0;
 			
 			// Fill in the bubble based on the distance map
-                
+            
 			// Check for Overlap with Other Bubbles!
 			int overlapVox=0;
 			int selfVox=0;
@@ -1040,7 +1040,7 @@ public class DistLabel extends TIPLPlugin {
         public double dist(int x,int y, int z) {
             return dist((float) x,(float) y,(float) z);
         }
-
+        
         public double dist(float x,float y, float z) {
             return Math.sqrt(Math.pow(x-cx,2)+Math.pow(y-cy,2)+Math.pow(z-cz,2));
             
@@ -1136,7 +1136,7 @@ public class DistLabel extends TIPLPlugin {
             Collections.sort(filteredSL);
             sl=filteredSL;
         }
-    
+        
         public Iterator kiter() {
             return sl.iterator();
         }
@@ -1148,7 +1148,7 @@ public class DistLabel extends TIPLPlugin {
             if (sl.size()>0) maxRad=((SeedLabel) sl.get(0)).rad;
             return " "+length()+" bubbles ("+killedLabels+"), largest with radius:"+maxRad+" ";
         }
-
+        
     }
     
 }	
